@@ -2,20 +2,26 @@ trigger:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: 'ubuntu-latest'
   demands:
   - npm
 
 variables:
+  nodeVersion: '16.x'
   buildConfiguration: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-  dotnetSdkVersion: '6.x'
+  dotnetSdkVersion: '8.x'
 
 steps:
 - task: UseDotNet@2
   displayName: 'Use .NET SDK $(dotnetSdkVersion)'
   inputs:
     version: '$(dotnetSdkVersion)'
+
+- task: NodeTool@0
+  displayName: "Use Node.js $(nodeVersion)"
+  inputs:
+      versionSpec: '$(nodeVersion)'
 
 - task: Npm@1
   displayName: 'Run npm install'
